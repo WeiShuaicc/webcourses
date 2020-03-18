@@ -18,6 +18,6 @@ from django.urls import path
 from apps.webs.views import message_form
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('message_fromm/', message_form)
+    # path('admin/', admin.site.urls),
+    # path('message_form/', message_form)
 ]
