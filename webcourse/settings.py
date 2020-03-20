@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+from django.conf import settings as gSettings  # 全局设置
 import os
+
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +27,7 @@ SECRET_KEY = 'vp^ze93swyi=r2-jqw6!$gm(r5izq4eol8d$!(&#(dvh*mzlll'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.2.108','localhost','supershuai-virtualbox']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,6 +44,12 @@ INSTALLED_APPS = [
     "apps.users.apps.UsersConfig",
     "apps.operation.apps.OperationConfig",
     "apps.organizations.apps.OrganizationsConfig",
+    "crispy_forms",
+    "xadmin.apps.XAdminConfig",
+    "captcha",
+    # 我的应用程序
+
+
 ]
 
 MIDDLEWARE = [
@@ -68,6 +76,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
+
             ],
         },
     },
@@ -92,7 +102,7 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
-
+#用户密码验证-Django框架提供 为测试方便，先不进行设置
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -100,27 +110,27 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
 ]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
+AUTH_USER_MODEL = "users.UserProfile"
+LANGUAGE_CODE = 'zh-hans' #en-us
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False  #改为false是为了防止生成UTC的时区
 
 
 # Static files (CSS, JavaScript, Images)
@@ -133,8 +143,29 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-AUTH_USER_MODEL = "users.UserProfile"
 
 
+#云片网相关设置
+yp_apikey = "d6c4ddbf50ab36611d2f52041a0b949e"
+
+#redis相关配置
+REDIS_HOST = "127.0.0.1"
+REDIS_PORT = 6379
+# sudo apt-get install redis-server
+# sudo apt-get install redis-cli
+#1.如果重启django 变量不存在
+#2.随着验证码越来越多，内存占用越来越大，验证码过期
+#3. redis k-v
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+#分页相关设置
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 6,
+    'MARGIN_PAGES_DISPLAYED': 1,
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
 
 

@@ -1,4 +1,4 @@
-WSGI_APPLICATION = 'MxOnline.wsgi.application'
+WSGI_APPLICATION = 'webcourse.wsgi.application'
 
 
 # Database
