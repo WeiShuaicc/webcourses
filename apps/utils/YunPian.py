@@ -15,13 +15,15 @@ def send_single_sms(apikey, code, mobile):
     re_json = json.loads(res.text)
     return re_json
 
-
+#测试
 if __name__ == "__main__":
-    res = send_single_sms("d6c4ddbf50ab36611d2f52041a0b949e", "123456",          "18782902568")
+    ##45543e74a80df71bb2d6fa1c697a3bcc
+    res = send_single_sms("d6c4ddbf50ab36611d2f52041a0b949e", "123456",          "19862171708")
     import json
     res_json = json.loads(res.text)
     code = res_json["code"]
     msg = res_json["msg"]
+    #code 判断
     if code == 0:
         print("发送成功")
     else:
