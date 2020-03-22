@@ -21,6 +21,7 @@
 				<li>
 					<h2>机构类别</h2>
 					<div class="cont">
+                    <!--静态修改org-list 机构筛选 “全部”对应“”  其它 ：choices=(("pxjg", "培训机构"), ("gr", "个人"), ("gx", "高校")） -->
                         <a href="?city={{ city_id }}"><span class="{% ifequal category '' %}active2{% endifequal %}">全部</span></a>
 
                             <a href="?ct=pxjg&city={{ city_id }}"><span class="{% ifequal category 'pxjg' %}active2{% endifequal %}">培训机构</span></a>
@@ -36,6 +37,7 @@
 					<div class="more">更多</div>
 					<div class="cont">
                         <a href="?ct={{ category }}"><span class="{% ifequal city_id  '' %}active2{% endifequal %}">全部</span></a>
+                            <!--静态修改org-list 城市for循环 stringformat:django字符串转换-->
                             {% for city in all_citys %}
                                 <a href="?city={{ city.id }}&ct={{ category }}"><span class="{% ifequal city_id city.id|stringformat:'i' %}active2{% endifequal %}">{{ city.name }}</span></a>
                             {% endfor %}
@@ -48,12 +50,12 @@
 		<div class="layout">
 			<div class="head">
 				<ul class="tab_header">
+                    <!--静态修改org-list 排序实现：运用order_by对数据库字段排序，sort排序内容传递给后端-->
 					<li class="{% if sort == '' %}active{% endif %}"><a href="?ct=&city=">全部</a> </li>
 					<li class="{% if sort == 'students' %}active{% endif %}"><a href="?sort=students&ct={{ category }}&city={{ city_id }}">学习人数 &#8595;</a></li>
 					<li class="{% if sort == 'courses' %}active{% endif %}"><a href="?sort=courses&ct={{ category }}&city={{ city_id }}">课程数 &#8595;</a></li>
 				</ul>
 			</div>
-
             {% for org in all_orgs.object_list %}
                 <dl class="des difdes">
                     <dt>
@@ -66,6 +68,7 @@
                              <a href="{% url 'org:home' org.id %}">
                                  <h1>{{ org.name }}</h1>
                                  <div class="pic fl">
+                                 <!--静态修改org-list 是否认证-->
                                      {% if org.is_auth %}
                                          <img src="{% static 'images/authentication.png' %}"/>
                                      {% endif %}
@@ -75,24 +78,32 @@
                                  </div>
                              </a>
                         </div>
+                        <!--静态修改org_list 课程列表 -->
                         <ul class="cont">
                             <li class="first"><p class="pic9">课程数：<span>{{ org.course_nums }}</span></p><p class="c7">学习人数：<span>{{ org.students }}</span></p></li>
                             <li class="c8" style="padding-left:18px;">{{ org.address }}</li>
                             <li class="pic10" style="padding-left:18px;">经典课程：
                                     {% if org.courses %}
+                                        <!--debugrecord: courses对应model中的方法名称-->
                                     {% for course in org.courses %}
                                         <a href="{% url 'course:detail' course.id %}">{{ course.name }}</a>
                                     {% endfor %}
                                         {% else %}
-                                        无
+                                        暂无
                                     {% endif %}
                             </li>
                         </ul>
                     </dd>
                     <div class="buy start_groupbuy jsShowPerfect2" data-id="22"><br/>联系<br/>服务</div>
                 </dl>
+
+
             {% endfor %}
 		</div>
+
+
+
+         <!--静态修改org_list 自定义分页（pure插件基础上开发）以下来自pure插件配置文档 debugrecord object_list 对应 views的page中取出的属性 -->
 		 <div class="pageturn">
             <ul class="pagelist">
                 {% if all_orgs.has_previous %}
@@ -102,11 +113,13 @@
                 {% for page in all_orgs.pages %}
                     {% if page %}
                         {% ifequal page all_orgs.number %}
+                            <!-- 当前页 -->
                             <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
                         {% else %}
                             <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
                         {% endifequal %}
                     {% else %}
+                        <!-- 省略页 -->
                         <li class="none">...</li>
                     {% endif %}
                 {% endfor %}
@@ -138,14 +151,17 @@
                 </div>
                 <p class="error company-tips" id="jsCompanyTips"></p>
 				<input class="btn" type="text" id="jsStayBtn" value="立即咨询 >" />
+            <!--debugrecord 403 -->
             {% csrf_token %}
             </form>
 		</div>
 
 		<div class="right companyrank layout">
 			<div class="head">授课机构排名</div>
+            <!-- 静态修改org-list 机构排名-->
             {% for org in hot_orgs %}
                 <dl class="des">
+                   <!-- 静态修改org-list  排名标签：forloop.counter获取到当前排名数-->
                     <dt class="num fl">{{ forloop.counter }}</dt>
                     <dd>
                         <a href="{% url 'org:home' org.id %}"><h1>{{ org.name }}</h1></a>
@@ -159,6 +175,7 @@
 {% endblock %}
 
 {% block custom_js %}
+    <!--咨询 相应事件 -->
     <script>
     $(function(){
         $(document).ready(function() {
@@ -167,6 +184,7 @@
                     cache: false,
                     type: "POST",
                     url: "{% url 'org:add_ask' %}",
+                    <!--序列化 -->
                     data: $('#jsStayForm').serialize(),
                     async: true,
                     success: function (data) {
