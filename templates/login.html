@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 </head>
+
 <body>
 <div class="dialog" id="jsDialog">
 <!--提示弹出框-->
@@ -40,6 +41,7 @@
             <p class="fl hd-tips">精品课程在线网，在线学习平台！</p>
             <ul class="fr hd-bar">
                 <li>服务电话：<span>33333333</span></li>
+                <!--静态修改login  url -->
                 <li class="active"><a href="{% url 'login' %}">[登录]</a></li>
                 <li><a href="{% url 'register' %}">[注册]</a></li>
             </ul>
@@ -67,16 +69,26 @@
             </div>
             <div class="fl form-box">
                 <div class="tab">
+                <!--静态修改 active：加入动态与普通登录页面 判断 -->
                     <h2 class="{% if dynamic_login %}{% else %}active{% endif %}">账号登录</h2>
                     <h2 class="{% if dynamic_login %}active{% else %}{% endif %}">动态登录</h2>
                 </div>
+                <!--静态修改 hide：加入动态与普通登录页面 判断 -->
                 <form class="tab-form {% if dynamic_login %}hide{% else %}{% endif %}" action="{% url 'login' %}?next={{ next }}" method="post" autocomplete="off" id="form1">
+                <!--静态修改login 1.errorput  2.value数据回传   debugrecord： 空隔问题-->
                     <div class="form-group marb20 {% if login_form.errors.username %}errorput{% endif %}">
                         <input name="username" id="account_l" value="{{ login_form.username.value }}" type="text" placeholder="手机号/邮箱" />
                     </div>
                     <div class="form-group marb8 {% if login_form.errors.password %}errorput{% endif %}">
                         <input name="password" id="password_l" value="{{ login_form.password.value }}" type="password" placeholder="请输入您的密码" />
                     </div>
+                <!-- 登录错误逻辑判断
+                  if login_form.error:
+                    for key, error in login_form.errors.items
+                      error_message
+                  else
+                      msg
+                -->
                     <div class="error btns login-form-tips" id="jsLoginTips">{% if login_form.errors %}{% for key, error in login_form.errors.items %}{{ error }}{% endfor %}{% else %}{{ msg }}{% endif %}</div>
 {#                     <div class="auto-box marb38">#}
 {##}
@@ -85,27 +97,34 @@
                      <input class="btn btn-green" id="jsLoginBtn" type="submit" value="立即登录 > " />
                     {% csrf_token %}
                 </form >
+                <!--静态修改login  1.active设置d_login,向后端发送动态登录请求 -->
                 <form class="tab-form {% if dynamic_login %}{% else %}hide{% endif %}" method="POST" action="{% url 'd_login' %}" id="mobile_register_form" autocomplete="off" id="form2">
 
                     <div class="form-group marb20">
+                        <!--静态修改login   value：手机号输入提示   -->
                         <input id="jsRegMobile" name="mobile" value="{{ login_form.mobile.value|default_if_none:'' }}" type="text" placeholder="请输入您的手机号码">
                     </div>
+                <!--静态文件login 动态验证码插入 -->
                     <div class="form-group marb20 blur" id="jsRefreshCode">
+                        <!--静态修改login 验证码login_form.catcha 自动生成html  如若取值：.value -->
                         {{ login_form.captcha }}
                         {{ d_form.captcha }}
                     </div>
                     <div class="clearfix">
                         <div class="form-group marb8 verify-code">
+                            <!--静态修改login   value：验证码输入提示   -->
                             <input id="jsPhoneRegCaptcha" name="code" value="{{ login_form.code.value|default_if_none:'' }}" type="text" placeholder="输入手机验证码">
                         </div>
                         <input type="button" class="verify-code-btn sendcode" id="jsSendCode" value="发送验证码">
                     </div>
+                    <!--静态修改login   value：错误提示   -->
                     <div class="error btns" id="jsMobileTips" style="">{% if login_form.errors %}{% for key, error in login_form.errors.items %}{{ error }}{% endfor %}{% else %}{{ msg }}{% endif %}</div>
                     <div class="auto-box marb8">
                     </div>
                     <input class="btn btn-green" id="jsMobileRegBtn" type="button" value="立即登录">
                 {% csrf_token %}
                 </form>
+                <!--静态修改login  -->
                 <p class="form-p">没有精品课程在线网帐号？<a href="{% url 'register' %}">[立即注册]</a></p>
             </div>
         </div>
