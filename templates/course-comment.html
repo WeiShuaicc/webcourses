@@ -72,6 +72,7 @@
                     </div>
                     <div id="course_note">
                         <ul class="mod-post" id="comment-list">
+                           <!--静态修改 course-comment  课程评论 -->
                             {% for comment in comments %}
                             <li class="post-row">
                                 <div class="media">
@@ -81,6 +82,7 @@
                                     <div class="tit">
                                         <span target="_blank">{% if comment.user.nick_name %}{{ comment.user.nick_name }}{% else %}{{ comment.user.username }}{% endif %}</span>
                                     </div>
+                                    <!-- 评论内容-->
                                     <p class="cnt">{{ comment.comments }}</p>
                                     <div class="footer clearfix">
                                         <span title="创建时间" class="l timeago">时间：{{ comment.add_time }}</span>
