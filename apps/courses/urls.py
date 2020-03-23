@@ -4,7 +4,7 @@ from django.urls import path
 from apps.courses.views import CourseListView, CourseDetailView, CourseLessonView, CourseCommentsView
 from apps.courses.views import VideoView
 
-
+#课程二级路由
 urlpatterns = [
     url(r'^list/$', CourseListView.as_view(), name="list"),
     url(r'^(?P<course_id>\d+)/$', CourseDetailView.as_view(), name="detail"),
