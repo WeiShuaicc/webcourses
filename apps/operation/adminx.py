@@ -1,6 +1,6 @@
 import xadmin
 
-from apps.operation.models import UserAsk, CourseComments, UserCourse, UserFavorite, UserMessage
+from apps.operation.models import UserAsk, CourseComments, UserCourse, UserFavorite, UserMessage, WordGroup
 from apps.operation.models import Banner
 
 
@@ -17,7 +17,7 @@ class BannerAdmin(object):
 
 
 class UserCourseAdmin(object):
-    list_display = ['user', 'course', 'add_time']
+    list_display = ['user', 'course','add_time']
     search_fields = ['user', 'course']
     list_filter = ['user', 'course', 'add_time']
 
@@ -46,6 +46,16 @@ class UserFavoriteAdmin(object):
     list_display = ['user', 'fav_id', 'fav_type', 'add_time']
     search_fields = ['user', 'fav_id', 'fav_type']
     list_filter = ['user', 'fav_id', 'fav_type', 'add_time']
+    ordering = ['-add_time']
+
+class WordGroupAdmin(object):
+    list_display = ['query',   'is_response', 'ask_nums', 'add_time']
+    search_fields = ['query',   'is_response']
+    list_filter = ['query',   'is_response','ask_nums']
+    readonly_fields = ["query","ask_nums" ]  # 只读
+    ordering = ['-ask_nums']
+    #list_editable = ['responseword']
+
 
 
 xadmin.site.register(UserAsk, UserAskAdmin)
@@ -54,3 +64,4 @@ xadmin.site.register(UserCourse, UserCourseAdmin)
 xadmin.site.register(UserMessage, UserMessageAdmin)
 xadmin.site.register(CourseComments, CourseCommentsAdmin)
 xadmin.site.register(UserFavorite, UserFavoriteAdmin)
+xadmin.site.register(WordGroup, WordGroupAdmin)
