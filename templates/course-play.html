@@ -17,7 +17,41 @@
     </style>
 {% endblock %}
 {% block custom_js %}
+
     <script src="{% static 'js/video.min.js' %}" type="text/javascript"></script>
+ <script>
+var player = videojs(document.getElementById('example_video_1'), {
+  controls: true, // 是否显示控制条
+  poster: 'xxx', // 视频封面图地址
+  preload: 'auto',
+  autoplay: false,
+  fluid: true, // 自适应宽高
+  language: 'zh-CN', // 设置语言
+  muted: false, // 是否静音
+  inactivityTimeout: false,
+  controlBar: { // 设置控制条组件
+    /* 使用children的形式可以控制每一个控件的位置，以及显示与否 */
+    children: [
+      {name: 'playToggle'}, // 播放按钮
+      {name: 'currentTimeDisplay'}, // 当前已播放时间
+      {name: 'progressControl'}, // 播放进度条
+      {name: 'durationDisplay'}, // 总时间
+      { // 倍数播放
+        name: 'playbackRateMenuButton',
+        'playbackRates': [0.5, 1, 1.5, 2, 2.5]
+      },
+      {
+        name: 'volumePanel', // 音量控制
+        inline: false, // 不使用水平方式
+      },
+      {name: 'FullscreenToggle'} // 全屏
+    ]
+  },
+
+}, function (){
+  console.log('视频可以播放了',this);
+});
+</script>
 {% endblock %}
 {% block custom_bread %}
 <section>
@@ -33,11 +67,12 @@
 {% endblock %}
 {% block content %}
     <div id="main">
-    <div style="width:1200px;height:675px; margin-left: 340px">
+    <div style="width:1200px;height:675px; margin-left: 50px">
         <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="1200"
               poster="http://video-js.zencoder.com/oceans-clip.png"
               data-setup="{}">
-            <source src="{{ video.url }}" type='video/mp4'>
+{#            <source src="{{ video.url }}" type='video/mp4'>#}
+            <source src= "{{ video_url }}"  type='video/mp4'>
         </video>
     </div>
     <div class="course-info-main clearfix w has-progress">
@@ -109,7 +144,7 @@
                                 <dd class="autowrap">{{ course.youneed_know }}</dd>
                             </dl>
                             <dl>
-                                <dt>老师告诉你能学到什么？</dt>
+                                <dt>课程作业</dt>
                                 <dd class="autowrap">{{ course.teacher_tell }}</dd>
                             </dl>
                         </div>

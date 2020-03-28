@@ -91,6 +91,9 @@
                 </div>
 
             </div>
+
+
+
             <div class="aside r">
                 <div class="bd">
 
@@ -103,7 +106,8 @@
                                 <a href="{{ resource.file.url }}" class="downcode" target="_blank" download="" data-id="274" title="">下载</a>
                             </li>
                             {% endfor %}
-                        </ul>
+                        </ul> <br>
+
                     </div>
                     <div class="box mb40">
                         <h4>讲师提示</h4>
@@ -119,12 +123,20 @@
                         <div class="course-info-tip">
                             <dl class="first">
                                 <dt>课程须知</dt>
-                                <dd class="autowrap">{{ course.youneed_know }}</dd>
+                                <dd class="autowrap"><h3>{{ course.youneed_know }}</h3></dd>
                             </dl>
                             <dl>
-                                <dt>老师告诉你能学到什么？</dt>
-                                <dd class="autowrap">{{ course.teacher_tell }}</dd>
+                                <dt>课程作业</dt>
+                                <dd class="autowrap"><h3>{{ course.teacher_tell }}</h3></dd>
                             </dl>
+                            <h4>作业提交: {{ msg }}</h4>
+
+                                <form {% if msg == "已提交" %}style="display: none" {% else %} style="display: block" {% endif %} action='/savefile/?course={{ course.id}}' method="post" enctype="multipart/form-data">
+                                  {% csrf_token %}
+                                   <input type="file" name="myfile" id="avatar_file">
+                                  <input type="submit" class="btn-blue" value="提交">
+                                </form>
+
                         </div>
                     </div>
 

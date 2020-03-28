@@ -3,7 +3,7 @@ from django.db.models import Sum
 import xadmin
 
 from apps.courses.models import Course, Lesson, Video, BannerCourse, CourseResource, CourseTag
-from apps.courses.views import TestView
+from apps.courses.views import TestView, Xadmin_addVideoView, xadmin_returnView
 from apps.trades.models import OrderInfo
 from xadmin.layout import Fieldset, Main, Side, Row
 from xadmin.views import BaseAdminObject
@@ -24,6 +24,10 @@ class GlobalSettings(BaseAdminObject):
                         'url': '/xadmin/test_view',  # 这里填写你将要跳转url
                         # 'icon': 'fa fa-cny'     #这里是bootstrap的icon类名，要换icon只要登录bootstrap官网找到icon的对应类名换上即可
                     },
+                    {
+                        'title': '课程视频添加',  # 这里是你菜单的名称
+                        'url': '/xadmin/addvideo_view',  # 这里填写你将要跳转url
+                    }
                 )
             }
         ]
@@ -31,8 +35,9 @@ class GlobalSettings(BaseAdminObject):
 
 # 注册要跳转的视图函数
 xadmin.site.register_view(r'test_view/$', TestView, name='test')
-
-
+xadmin.site.register_view(r'addvideo_view/$', Xadmin_addVideoView, name='addvideo')
+#debugrecord: 所有的对xadmin的处理必须在xadmin中注册！！！
+xadmin.site.register_view(r'upvideofile/',xadmin_returnView,name="upvideofile" )
 
 class BaseSettings(object):
     enable_themes = True
@@ -233,4 +238,4 @@ xadmin.site.register(CourseTag, CourseTagAdmin)
 xadmin.site.register(xadmin.views.CommAdminView, GlobalSettings)#注册 Global
 xadmin.site.register(xadmin.views.BaseAdminView, BaseSettings)  #注册 Base 皮肤
 xadmin.site.register(OrderInfo, OrderAdmin)
-#注册要跳转的视图函数
+
