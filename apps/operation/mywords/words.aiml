@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <aiml>
 	<category>
-		<pattern>你好</pattern>
+		<pattern>你好，我是*</pattern>
 		<template>
 			<random>
-				<li>你好啊</li>
-				<li>你好，有什么可以帮助到你的吗</li>
-				<li>你好，请问有什么可以帮助到你的吗</li>
+				<li>你好啊，</li>
 			</random>
+			<star index="1"/>
 		</template>
 	</category>
 </aiml>
